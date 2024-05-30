@@ -89,14 +89,20 @@ def save_output(matrix, outputFilePath):
             file.write(f"({row}, {col}, {value})\n")
 
 def main():
-    if len(sys.argv) < 5:
-        print("Usage: sparse_matrix.py <operation> <input_file_1> <input_file_2> <output_file>")
+    if len(sys.argv) < 4:
+        print("Usage: sparse_matrix.py <input_file_1> <input_file_2> <output_file>")
         return
 
-    operation = sys.argv[1]
-    input_file_1 = sys.argv[2]
-    input_file_2 = sys.argv[3]
-    output_file = os.path.join("output", sys.argv[4])
+    input_file_1 = sys.argv[1]
+    input_file_2 = sys.argv[2]
+    output_file = os.path.join("output", sys.argv[3])
+
+    valid_operations = ['add', 'sub', 'mul']
+    operation = input(f"Please choose an operation ({', '.join(valid_operations)}): ").strip().lower()
+
+    if operation not in valid_operations:
+        print("Invalid operation. Use 'add', 'sub', or 'mul'.")
+        return
 
     try:
         matrix1 = SparseMatrix(matrixFilePath=input_file_1)
@@ -111,12 +117,11 @@ def main():
         result = matrix1 - matrix2
     elif operation == 'mul':
         result = matrix1 * matrix2
-    else:
-        print("Invalid operation. Use 'add', 'sub', or 'mul'.")
-        return
 
     save_output(result, output_file)
     print(f"Operation {operation} completed. Result saved to {output_file}")
 
 if __name__ == "__main__":
     main()
+
+      
